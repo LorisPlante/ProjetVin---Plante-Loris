@@ -22,6 +22,8 @@ namespace ProjetWPF
     public partial class MainWindow : Window
     {
         GestionnaireDeCaves gst;
+        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,6 +31,13 @@ namespace ProjetWPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // les caves
+            gst = new GestionnaireDeCaves();
+            List<Bouteille> cave1 = new List<Bouteille>();
+            List<Bouteille> cave2 = new List<Bouteille>();
+            List<Bouteille> cave3 = new List<Bouteille>();
+
+
             // Les couleurs du vin
             Couleur blanc = new Couleur("Blanc");
             Couleur rose = new Couleur("Rosé");
@@ -84,18 +93,53 @@ namespace ProjetWPF
             Bouteille b18 = new Bouteille(18, 71, vin18);
             Bouteille b19 = new Bouteille(19, 37, vin19);
             Bouteille b20 = new Bouteille(20, 92, vin20);
-            
 
+            gst.AjouterCave("cave1", cave1);
+            gst.AjouterCave("cave2", cave2);
+            gst.AjouterCave("cave3", cave3);
+
+            cave1.Add(b1);
+            cave1.Add(b2);
+            cave1.Add(b3);
+            cave1.Add(b4);
+            cave1.Add(b5);
+            cave1.Add(b6);
+            cave1.Add(b7);
+            cave2.Add(b8);
+            cave2.Add(b9);
+            cave2.Add(b10);
+            cave2.Add(b11);
+            cave2.Add(b12);
+            cave2.Add(b13);
+            cave2.Add(b14);
+            cave3.Add(b15);
+            cave3.Add(b16);
+            cave3.Add(b17);
+            cave3.Add(b18);
+            cave3.Add(b19);
+            cave3.Add(b20);
+
+            lvCaves.ItemsSource = gst.LesCaves.Keys;
         }
 
         private void lvCaves_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // A vous de jouer
+            if (lvCaves.SelectedItem != null)
+            {
+                lvBouteilles.ItemsSource = gst.LesCaves[lvCaves.SelectedItem as string];
+            }
         }
 
         private void lvBouteilles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // A vous de jouer
+            if(lvBouteilles.SelectedItem != null)
+            {
+                txtCouleur.Text = (lvBouteilles.SelectedItem as Bouteille).LeVin.LaCouleur.ToString();
+                txtMillesime.Text = (lvBouteilles.SelectedItem as Bouteille).LeVin.MillesimeVin.ToString();
+                txtNomCepage.Text = (lvBouteilles.SelectedItem as Bouteille).LeVin.LeCepage.ToString();
+                txtPrix.Text = (lvBouteilles.SelectedItem as Bouteille).LeVin.PrixDuVin.ToString();
+
+            }
         }
     }
 }
